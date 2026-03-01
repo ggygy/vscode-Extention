@@ -1,0 +1,346 @@
+/** App-specific styles */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loading state */
+.app-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--vscode-input-border);
+  border-top-color: var(--vscode-info-foreground);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error banner */
+.error-banner {
+  background-color: rgba(244, 135, 113, 0.2);
+  border: 1px solid var(--vscode-error-foreground);
+  color: var(--vscode-error-foreground);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.error-banner button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Settings layout */
+.settings-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--vscode-input-border);
+  margin-bottom: 1rem;
+}
+
+.settings-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.unsaved-indicator {
+  color: var(--vscode-warning-foreground);
+  font-size: 0.875rem;
+}
+
+.settings-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+}
+
+/* Section styles */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+/* Format input styles */
+.format-input {
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.format-input.disabled {
+  opacity: 0.5;
+}
+
+.format-input-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: var(--vscode-editor-background);
+  cursor: pointer;
+  user-select: none;
+}
+
+.format-input-header input[type="checkbox"] {
+  margin: 0;
+}
+
+.format-name-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  padding: 0.25rem;
+}
+
+.format-name-input:focus {
+  outline: none;
+  background-color: var(--vscode-input-background);
+}
+
+.expand-icon {
+  font-size: 0.75rem;
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+}
+
+.delete-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background-color: var(--vscode-error-foreground);
+  opacity: 0.7;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+}
+
+.format-input-body {
+  padding: 1rem;
+  border-top: 1px solid var(--vscode-input-border);
+}
+
+.format-input-body label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.format-input-body textarea {
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.format-help {
+  margin-top: 0.5rem;
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+}
+
+/* Placeholder selector styles */
+.placeholder-selector {
+  margin-bottom: 1rem;
+}
+
+.placeholder-selector-trigger {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.placeholder-dropdown {
+  margin-top: 0.5rem;
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  background-color: var(--vscode-editor-background);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.placeholder-search {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--vscode-input-border);
+  background-color: transparent;
+}
+
+.placeholder-search:focus {
+  outline: none;
+}
+
+.placeholder-categories {
+  padding: 0.5rem;
+}
+
+.placeholder-category {
+  margin-bottom: 1rem;
+}
+
+.placeholder-category:last-child {
+  margin-bottom: 0;
+}
+
+.placeholder-category h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+}
+
+.placeholder-category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.placeholder-category li {
+  margin: 0;
+}
+
+.placeholder-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.placeholder-item:hover {
+  background-color: var(--vscode-list-hover-background);
+}
+
+.placeholder-item code {
+  font-size: 0.85rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.1rem 0.25rem;
+  border-radius: 2px;
+}
+
+.placeholder-desc {
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+  font-size: 0.875rem;
+}
+
+/* Preview styles */
+.preview-container {
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preview-header {
+  padding: 0.75rem;
+  background-color: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--vscode-input-border);
+}
+
+.preview-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.preview-content {
+  padding: 1rem;
+  background-color: var(--vscode-editor-background);
+  min-height: 100px;
+}
+
+.preview-content pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.preview-data {
+  padding: 1rem;
+  border-top: 1px solid var(--vscode-input-border);
+  background-color: var(--vscode-background);
+}
+
+.preview-data h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.preview-data ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.preview-data li {
+  margin-bottom: 0.25rem;
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+  .settings-content {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
