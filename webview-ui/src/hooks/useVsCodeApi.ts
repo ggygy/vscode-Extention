@@ -19,6 +19,8 @@ export function useVsCodeApi() {
     // Acquire VSCode API
     if (typeof acquireVsCodeApi === 'function') {
       vscodeRef.current = acquireVsCodeApi() as VSCodeAPI;
+      // Expose globally for the provider's helper function
+      (window as any).vscode = vscodeRef.current;
       setIsReady(true);
     } else {
       console.warn('acquireVsCodeApi is not available');

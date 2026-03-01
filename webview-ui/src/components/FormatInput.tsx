@@ -69,8 +69,8 @@ export const FormatInput: React.FC<FormatInputProps> = ({
           />
           <div className="format-help">
             <small>
-              Available placeholders: {relative}, {absolute}, {basename}, {extname},
-              {filename}, {content}, {start-line}, {end-line}
+              Available placeholders: {'{relative}'}, {'{absolute}'}, {'{basename}'}, {'{extname}'},
+              {'{filename}'}, {'{content}'}, {'{start-line}'}, {'{end-line}'}
             </small>
           </div>
         </div>

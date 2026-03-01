@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Settings } from './components/Settings';
 import { useVsCodeApi, useExtensionMessage } from './hooks/useVsCodeApi';
-import type { ExtensionSettings, WebviewMessage, ExtensionMessage } from './types/webview';
+import type { ExtensionSettings, ExtensionMessage } from './types/webview';
 import './App.css';
 
 // Default settings
@@ -25,7 +25,7 @@ const defaultSettings: ExtensionSettings = {
 };
 
 export const App: React.FC = () => {
-  const { isReady, postMessage, setState, getState } = useVsCodeApi();
+  const { isReady, postMessage, setState } = useVsCodeApi();
   const [settings, setSettings] = useState<ExtensionSettings>(defaultSettings);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -71,14 +71,14 @@ export class CustomCopyWebviewPanel {
     this._panel.webview.onDidReceiveMessage(
       (message) => {
         switch (message.type) {
+          case 'getSettings':
+            this._sendSettingsToWebview();
+            break;
+          case 'saveSettings':
+            this._saveSettings(message.payload);
+            break;
           case 'configChange':
             this._handleConfigChange(message.key, message.value);
-            break;
-          case 'requestConfig':
-            this._sendConfigToWebview();
-            break;
-          case 'resetConfig':
-            this._resetConfig();
             break;
         }
       },
@@ -90,18 +90,44 @@ export class CustomCopyWebviewPanel {
   private _update(): void {
     const webview = this._panel.webview;
     webview.html = getWebviewContent(webview, this._extensionUri);
-    // Send current config to webview after it loads
-    setTimeout(() => this._sendConfigToWebview(), 100);
   }
 
-  private _sendConfigToWebview(): void {
+  private _sendSettingsToWebview(): void {
     const config = vscode.workspace.getConfiguration('customCopy');
+
+    // Convert VSCode config to ExtensionSettings format
+    const settings = {
+      formats: [
+        {
+          name: 'Default',
+          format: config.get('format', '{path}:{line}'),
+          enabled: true,
+          placeholders: []
+        }
+      ],
+      defaultFormat: 'Default',
+      enabled: true
+    };
+
     this._panel.webview.postMessage({
-      type: 'config',
-      data: {
-        pathType: config.get('pathType', 'relative'),
-        format: config.get('format', '{path}:{line}'),
-      },
+      type: 'settings',
+      payload: settings
+    });
+  }
+
+  private async _saveSettings(settings: any): Promise<void> {
+    const config = vscode.workspace.getConfiguration('customCopy');
+
+    // Extract format from the first format in settings
+    if (settings.formats && settings.formats.length > 0) {
+      const format = settings.formats[0].format;
+      await config.update('format', format, vscode.ConfigurationTarget.Global);
+    }
+
+    // Send confirmation back to webview
+    this._panel.webview.postMessage({
+      type: 'settingsSaved',
+      payload: null
     });
   }
 
@@ -115,13 +141,6 @@ export class CustomCopyWebviewPanel {
       value,
       vscode.ConfigurationTarget.Global
     );
-  }
-
-  private async _resetConfig(): Promise<void> {
-    const config = vscode.workspace.getConfiguration('customCopy');
-    await config.update('pathType', undefined, true);
-    await config.update('format', undefined, true);
-    this._sendConfigToWebview();
   }
 
   public dispose(): void {

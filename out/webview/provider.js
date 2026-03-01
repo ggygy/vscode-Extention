@@ -1,14 +1,48 @@
+"use strict";
 /**
  * Webview Content Provider
  *
  * Provides the HTML content for the settings webview panel.
  * Serves the built React app from the webview-ui directory.
  */
-
-import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getWebviewContent = getWebviewContent;
+const vscode = __importStar(require("vscode"));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 /**
  * Gets the HTML content for the webview panel.
  *
@@ -16,70 +50,48 @@ import * as path from 'path';
  * @param extensionUri - The extension URI for resolving resource paths
  * @returns The complete HTML content
  */
-export function getWebviewContent(
-  webview: vscode.Webview,
-  extensionUri: vscode.Uri
-): string {
-  // Get the path to the built webview-ui files
-  const webviewUiPath = vscode.Uri.joinPath(extensionUri, 'out', 'webview-ui');
-
-  // Try to load the built index.html from webview-ui
-  const indexPath = path.join(webviewUiPath.fsPath, 'index.html');
-
-  if (fs.existsSync(indexPath)) {
-    // Production mode: serve the built React app
-    return loadBuiltApp(webview, extensionUri, indexPath);
-  } else {
-    // Development mode: show a placeholder with instructions
-    return getDevelopmentPlaceholder();
-  }
+function getWebviewContent(webview, extensionUri) {
+    // Get the path to the built webview-ui files
+    const webviewUiPath = vscode.Uri.joinPath(extensionUri, 'out', 'webview-ui');
+    // Try to load the built index.html from webview-ui
+    const indexPath = path.join(webviewUiPath.fsPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        // Production mode: serve the built React app
+        return loadBuiltApp(webview, extensionUri, indexPath);
+    }
+    else {
+        // Development mode: show a placeholder with instructions
+        return getDevelopmentPlaceholder();
+    }
 }
-
 /**
  * Loads the built React app and adapts it for VS Code webview.
  */
-function loadBuiltApp(
-  webview: vscode.Webview,
-  extensionUri: vscode.Uri,
-  indexPath: string
-): string {
-  let html = fs.readFileSync(indexPath, 'utf-8');
-
-  // Get the webview-ui asset directory
-  const webviewUiPath = vscode.Uri.joinPath(extensionUri, 'out', 'webview-ui');
-  const webviewUiUri = webview.asWebviewUri(webviewUiPath);
-
-  // Inject CSP with correct webview source
-  const cspSource = webview.cspSource;
-  const csp = `default-src 'none'; script-src ${cspSource} 'unsafe-inline' 'unsafe-eval'; style-src ${cspSource} 'unsafe-inline'; font-src ${cspSource}; img-src data: ${cspSource};`;
-  html = html.replace(
-    '<!-- CSP will be injected by provider.ts -->',
-    `<meta http-equiv="Content-Security-Policy" content="${csp}" />`
-  );
-
-  // Replace asset paths with webview-safe URIs
-  // Handle both relative paths and absolute paths
-  html = html.replace(
-    /(src|href)=["']([^"']*)["']/g,
-    (match, attr, src) => {
-      // Skip external URLs and data URIs
-      if (
-        src.startsWith('http') ||
-        src.startsWith('data:') ||
-        src.startsWith('vscode-webview:')
-      ) {
-        return match;
-      }
-
-      // Remove leading ./ or / for relative paths
-      const cleanSrc = src.replace(/^\.\//, '').replace(/^\//, '');
-      const assetUri = vscode.Uri.joinPath(webviewUiUri, cleanSrc);
-      return `${attr}="${assetUri}"`;
-    }
-  );
-
-  // Add the VS Code API script at the beginning of body
-  const vscodeApiScript = `
+function loadBuiltApp(webview, extensionUri, indexPath) {
+    let html = fs.readFileSync(indexPath, 'utf-8');
+    // Get the webview-ui asset directory
+    const webviewUiPath = vscode.Uri.joinPath(extensionUri, 'out', 'webview-ui');
+    const webviewUiUri = webview.asWebviewUri(webviewUiPath);
+    // Inject CSP with correct webview source
+    const cspSource = webview.cspSource;
+    const csp = `default-src 'none'; script-src ${cspSource} 'unsafe-inline' 'unsafe-eval'; style-src ${cspSource} 'unsafe-inline'; font-src ${cspSource}; img-src data: ${cspSource};`;
+    html = html.replace('<!-- CSP will be injected by provider.ts -->', `<meta http-equiv="Content-Security-Policy" content="${csp}" />`);
+    // Replace asset paths with webview-safe URIs
+    // Handle both relative paths and absolute paths
+    html = html.replace(/(src|href)=["']([^"']*)["']/g, (match, attr, src) => {
+        // Skip external URLs and data URIs
+        if (src.startsWith('http') ||
+            src.startsWith('data:') ||
+            src.startsWith('vscode-webview:')) {
+            return match;
+        }
+        // Remove leading ./ or / for relative paths
+        const cleanSrc = src.replace(/^\.\//, '').replace(/^\//, '');
+        const assetUri = vscode.Uri.joinPath(webviewUiUri, cleanSrc);
+        return `${attr}="${assetUri}"`;
+    });
+    // Add the VS Code API script at the beginning of body
+    const vscodeApiScript = `
     <script>
       // Store state
       let currentConfig = null;
@@ -108,22 +120,20 @@ function loadBuiltApp(
       };
     </script>
   `;
-
-  // Insert the VS Code API script before the closing head tag or at the start of body
-  if (html.includes('</head>')) {
-    html = html.replace('</head>', `${vscodeApiScript}</head>`);
-  } else {
-    html = html.replace('<body>', `<body>${vscodeApiScript}`);
-  }
-
-  return html;
+    // Insert the VS Code API script before the closing head tag or at the start of body
+    if (html.includes('</head>')) {
+        html = html.replace('</head>', `${vscodeApiScript}</head>`);
+    }
+    else {
+        html = html.replace('<body>', `<body>${vscodeApiScript}`);
+    }
+    return html;
 }
-
 /**
  * Returns a placeholder HTML for development mode when the webview-ui is not built.
  */
-function getDevelopmentPlaceholder(): string {
-  return `
+function getDevelopmentPlaceholder() {
+    return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -216,3 +226,4 @@ function getDevelopmentPlaceholder(): string {
 </html>
   `;
 }
+//# sourceMappingURL=provider.js.map

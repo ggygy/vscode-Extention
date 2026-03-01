@@ -2,8 +2,12 @@
   "name": "vscode-custom-copy",
   "displayName": "Custom Copy",
   "description": "Copy file path with line numbers in customizable format",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "publisher": "your-publisher",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-publisher/vscode-custom-copy"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -53,7 +57,7 @@
         },
         "customCopy.format": {
           "type": "string",
-          "default": "{path}:{line}",
+          "default": "{path}:{lines}",
           "description": "Format string. Available placeholders: {path}, {relativePath}, {absolutePath}, {line}, {startLine}, {endLine}, {lines}. Example: '{path}#L{lines}' -> 'src/file.js#L42' or 'src/file.js#L42-50'"
         }
       }

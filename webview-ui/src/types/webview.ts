@@ -44,9 +44,9 @@ export interface WebviewState {
 // Message type guards
 export function isExtensionMessage(msg: unknown): msg is ExtensionMessage {
   return (
-    typeof msg === 'object' &amp;&amp;
-    msg !== null &amp;&amp;
-    'type' in msg &amp;&amp;
+    typeof msg === 'object' &&
+    msg !== null &&
+    'type' in msg &&
     typeof (msg as ExtensionMessage).type === 'string'
   );
 }

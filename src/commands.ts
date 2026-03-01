@@ -67,8 +67,9 @@ function getLineNumbers(editor: vscode.TextEditor): {
   endLine: number;
 } {
   const selection = editor.selection;
-  const startLine = selection.start.line + 1; // Convert to 1-based
-  const endLine = selection.end.line + 1;
+  // Handle reversed selections (user selected from bottom to top)
+  const startLine = Math.min(selection.start.line, selection.end.line) + 1; // Convert to 1-based
+  const endLine = Math.max(selection.start.line, selection.end.line) + 1;
 
   return { startLine, endLine };
 }

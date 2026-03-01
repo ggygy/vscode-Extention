@@ -24,7 +24,7 @@ export interface ExtensionConfig {
 /** Default configuration values */
 export const DEFAULT_CONFIG: ExtensionConfig = {
   pathType: 'relative',
-  format: '{path}:{line}',
+  format: '{path}:{lines}',
 };
 
 /**

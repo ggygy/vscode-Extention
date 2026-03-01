@@ -1,13 +1,35 @@
-.vscode
-.vscode-test
+# Dependencies
 node_modules
-out/test
-test
-src
+**/node_modules
+
+# Source files (we only need out/)
+src/
+
+# Exclude all webview-ui except the dist folder
+webview-ui/
+!webview-ui/dist/
+
+# Build outputs that shouldn't be in vsix
+out/test/
+*.map
+
+# Development files
+.vscode/
+.vscode-test/
+
+# Misc
+.claude/
+.git/
 .gitignore
-.yarnrc
-vsc-extension-quickstart.md
-**/tsconfig.json
-**/.eslintrc.json
-**/*.map
-**/*.ts
+.eslintrc.json
+prettier.config.js
+webpack.config.js
+
+# Documentation that's not needed in extension
+docs/
+design.md
+
+# Test files
+**/*.test.ts
+**/*.spec.ts
+test/

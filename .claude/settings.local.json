@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nTask 4: Initialize webview-ui with React + Vite\n\n- Create webview-ui/ directory structure\n- Create package.json with React + Vite dependencies\n- Create vite.config.ts \\(output to ../out/webview-ui\\)\n- Create tsconfig.json and tsconfig.node.json\n- Create index.html with VSCode API polyfill\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(npm install)",
+      "Bash(npm run compile)",
+      "Bash(npm run build)",
+      "Bash(npm run package:*)",
+      "Bash(ls:*)",
+      "Bash(npx vsce package)",
+      "Bash(npx vsce ls)",
+      "Bash(npx vsce ls --tree)",
+      "Bash(unzip -l f:/code/vscode-Extention/vscode-custom-copy/vscode-custom-copy-0.1.0.vsix)",
+      "Bash(npx vsce package --dry-run)",
+      "Bash(npx vsce --version)",
+      "Bash(npx vsce package --allow-missing-repository)",
+      "Bash(node -e \":*)",
+      "Bash(npx tsc -p ./)"
+    ]
+  }
+}
