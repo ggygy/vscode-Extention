@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' vscode-resource:; style-src 'unsafe-inline' vscode-resource:; font-src vscode-resource:; img-src data: vscode-resource:;" />
+    <title>Custom Copy - Settings</title>
+    <script>
+      // VSCode API polyfill - will be replaced by actual VSCode API in webview
+      if (typeof acquireVsCodeApi === 'undefined') {
+        window.acquireVsCodeApi = function() {
+          return {
+            postMessage: function(msg) {
+              console.log('Message to extension:', msg);
+            },
+            setState: function(state) {
+              window.__vscodeState = state;
+            },
+            getState: function() {
+              return window.__vscodeState || {};
+            }
+          };
+        };
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
