@@ -129,7 +129,4 @@ export async function copyWithPathCommand(): Promise<void> {
 
   // Copy to clipboard
   await vscode.env.clipboard.writeText(result);
-
-  // Show success message
-  vscode.window.showInformationMessage(`Copied: ${result}`);
 }
